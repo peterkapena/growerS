@@ -38,13 +38,13 @@ const main = async () => {
       return formattedError;
     },
     plugins: [
-      process.env.NODE_ENV === "production"
+      process.env.NODE_ENV === "production" && !process.env.IS_TEST
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageLocalDefault(),
     ],
   });
 
-  console.log(process.env.NODE_ENV);
+  console.log(process.env.APP_PORT);
 
   const port = +process.env.APP_PORT;
 
