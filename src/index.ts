@@ -31,7 +31,7 @@ const main = async () => {
       // unwrapResolverError removes the outer GraphQLError wrapping from
       // errors thrown in resolvers, enabling us to check the instance of
       // the original error
-      if (process.env.NODE_ENV !== "production") console.log(error);
+      console.log(error);
       if (unwrapResolverError(error)) {
         return { message: "Internal server error" };
       }
