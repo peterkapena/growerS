@@ -17,7 +17,7 @@ import { unwrapResolverError } from "@apollo/server/errors";
 import RegisterService from "./service/register.service.js";
 
 const main = async () => {
-  // await connectToMongoDB().then(addDefaultUser).then(addInitialFlags);
+  await connectToMongoDB().then(addDefaultUser).then(addInitialFlags);
 
   const schema = await buildSchema({
     resolvers,
@@ -50,17 +50,17 @@ const main = async () => {
 
   const { url } = await startStandaloneServer(server, {
     listen: { port: port },
-    // context: async (ctx: Context) => {
-    //   const token = ctx.req.headers.authorization || "";
-    //   // console.log(token);
-    //   if (token) {
-    //     // console.log(token)
-    //     const user = decodeJwt<UserSchema>(token);
-    //     ctx.user = user;
-    //     // console.log(user);
-    //   }
-    //   return ctx;
-    // },
+    context: async (ctx: Context) => {
+      const token = ctx.req.headers.authorization || "";
+      // console.log(token);
+      if (token) {
+        // console.log(token)
+        const user = decodeJwt<UserSchema>(token);
+        ctx.user = user;
+        // console.log(user);
+      }
+      return ctx;
+    },
   });
 
   console.log(`🚀  Server ready at: ${url}`);
