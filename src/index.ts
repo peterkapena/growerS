@@ -1,80 +1,59 @@
-import "./loadenv.js";
-import "reflect-metadata";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { buildSchema } from "type-graphql";
-import { resolvers } from "./resolvers/index.js";
-import { ApolloServerPluginLandingPageLocalDefault } from "@apollo/server/plugin/landingPage/default";
-import { ApolloServerPluginLandingPageDisabled } from "@apollo/server/plugin/disabled";
-import { connectToMongoDB } from "./service/mongo.js";
-import { decodeJwt } from "./service/jwt.js";
-import Context from "./types.js";
-import UserSchema from "./schema/user/user.schema.js";
-import FlagService from "./service/flag.service.js";
-import { initialFlags } from "./schema/flag/flag.schema.js";
-import { authChecker } from "./authchecker.js";
-import { unwrapResolverError } from "@apollo/server/errors";
-import RegisterService from "./service/register.service.js";
 
-const main = async () => {
-  // await connectToMongoDB().then(addDefaultUser).then(addInitialFlags);
+// A schema is a collection of type definitions (hence "typeDefs")
+// that together define the "shape" of queries that are executed against
+// your data.
+const typeDefs = `#graphql
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
 
-  const schema = await buildSchema({
-    resolvers,
-    validate: false,
-    authChecker,
-  });
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Book {
+    title: String
+    author: String
+  }
 
-  const server = new ApolloServer({
-    schema,
-    formatError: (formattedError, error) => {
-      // unwrapResolverError removes the outer GraphQLError wrapping from
-      // errors thrown in resolvers, enabling us to check the instance of
-      // the original error
-      console.log(error);
-      if (unwrapResolverError(error)) {
-        return { message: "Internal server error" };
-      }
-      return formattedError;
-    },
-    plugins: [
-      process.env.NODE_ENV === "production" && !process.env.IS_TEST
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageLocalDefault(),
-    ],
-  });
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    books: [Book]
+  }
+`;
 
-  console.log(process.env.APP_PORT);
+const books = [
+  {
+    title: "The Awakening",
+    author: "Kate Chopin",
+  },
+  {
+    title: "City of Glass",
+    author: "Paul Auster",
+  },
+];
 
-  const port = +process.env.APP_PORT;
-
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: port },
-    context: async (ctx: Context) => {
-      const token = ctx.req.headers.authorization || "";
-      // console.log(token);
-      if (token) {
-        // console.log(token)
-        const user = decodeJwt<UserSchema>(token);
-        ctx.user = user;
-        // console.log(user);
-      }
-      return ctx;
-    },
-  });
-
-  console.log(`🚀  Server ready at: ${url}`);
+// Resolvers define how to fetch the types defined in your schema.
+// This resolver retrieves books from the "books" array above.
+const resolvers = {
+  Query: {
+    books: () => books,
+  },
 };
 
-main().catch((err) => console.log(err));
+// The ApolloServer constructor requires two parameters: your schema
+// definition and your set of resolvers.
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
 
-async function addDefaultUser() {
-  await new RegisterService().addDefaultUser();
-}
+// Passing an ApolloServer instance to the `startStandaloneServer` function:
+//  1. creates an Express app
+//  2. installs your ApolloServer instance as middleware
+//  3. prepares your app to handle incoming requests
+const port = +process.env.PORT || 4000;
+const { url } = await startStandaloneServer(server, {
+  listen: { port },
+});
 
-function addInitialFlags() {
-  for (const flag of initialFlags) {
-    const flagService = new FlagService();
-    flagService.create(flag);
-  }
-}
+console.log(`🚀  Server ready at: ${url}`);
