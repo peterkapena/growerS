@@ -46,8 +46,10 @@ const main = async () => {
 
   console.log(process.env.NODE_ENV);
 
+  const port = +process.env.APP_PORT;
+
   const { url } = await startStandaloneServer(server, {
-    listen: { port: +process.env.APP_PORT },
+    listen: { port: port },
     context: async (ctx: Context) => {
       const token = ctx.req.headers.authorization || "";
       // console.log(token);
