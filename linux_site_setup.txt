@@ -1,0 +1,45 @@
+
+sudo mkdir -p /var/www/grower_x/html
+sudo chown -R $USER:$USER /var/www/grower_x/html
+sudo vim /var/www/grower_x/html/index.html
+
+<html>
+    <head>
+        <title>grower_x</title>
+    </head>
+    <body>
+        <h1>Welcome to grower_x !! </h1>
+    </body>
+</html>
+
+sudo vim /etc/nginx/sites-available/grower_x 
+
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/grower_x/html;
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name grower_x www.grower_x;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}
+ 
+ sudo ln -s /etc/nginx/sites-available/grower_x /etc/nginx/sites-enabled/
+
+sudo nginx -t
+
+sudo systemctl restart nginx
+
+Git clone https://github.com/peterkapena/grower_x.git /var/www/grower_x/html/grower_x
+git pull
+cd /var/www/grower_x/html/grower_x
+
+npm i
+npm run build
+
+sudo cp -r /var/www/grower_x/html/grower_x/build/* /var/www/grower_x/html
+sudo systemctl restart nginx
