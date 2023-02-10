@@ -43,3 +43,6 @@ npm run build
 
 sudo cp -r /var/www/grower_x/html/grower_x/build/* /var/www/grower_x/html
 sudo systemctl restart nginx
+
+ NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a -d -n 10 ./dist/index.js 
+NODE_ENV=production npm start
