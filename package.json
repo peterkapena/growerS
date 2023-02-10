@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "compile": "tsc --watch",
+    "build":"tsc",
     "start": "nodemon ./dist/index.js",
     "npmi": "npm install @apollo/server type-graphql graphql @typegoose/typegoose nodemon dotenv"
   },
