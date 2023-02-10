@@ -1,9 +1,22 @@
-import { Mutation, Query, Resolver, Arg } from "type-graphql";
+import {
+  Mutation,
+  Query,
+  Resolver,
+  Arg,
+  ObjectType,
+  Field,
+} from "type-graphql";
 import RegisterSchema, {
   RegisterSchemaInput,
 } from "../schema/register/register.schema.js";
 import UserSchema from "../schema/user/user.schema.js";
 import RegisterService from "../service/register.service.js";
+
+ObjectType();
+class TestQuery {
+  @Field(() => String)
+  env!: String;
+}
 
 @Resolver()
 export default class RegisterResolver {
@@ -16,9 +29,9 @@ export default class RegisterResolver {
     return this.registerService.register(input);
   }
 
-  @Query(() => UserSchema)
-  async testQuery() {
+  @Query(() => String)
+  testQuery() {
     // return await UserModel.find().findByUsername("peterkapena").lean();
-    return { username: "Peter", password: "None" };
+    return process.env.NODE_ENV || "empty";
   }
 }

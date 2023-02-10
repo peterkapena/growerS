@@ -1,23 +1,20 @@
 FROM node:alpine
-
-RUN apk update && apk add git
-
-RUN git clone https://github.com/peterkapena/grower_management.git grower_management
+# RUN apk update && apk add --no-cache python3
 
 # Create app directory
-WORKDIR /grower_management
+WORKDIR /app
+
 # #First copy the package files
-# COPY package*.json ./
+COPY package*.json ./
 
 RUN npm install
+# RUN npm install forever
 # If you are building your code for production
 RUN npm ci --only=production
 
-RUN npm run build
-
 # Bundle app source
-# COPY . .
+COPY . .
 
-EXPOSE 4000
+ENV NODE_ENV production
 
-CMD ["NODE_ENV=production", "forever", "start", "-l", "forever.log", "-o", "out.log", "-e", "err.log", "-a", "-d", "-n", "10", "./dist/index.js"]
+CMD ["node", "./dist/index.js"]
