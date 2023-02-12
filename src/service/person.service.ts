@@ -1,6 +1,10 @@
-import FlagSchema, { FlagModel, FlagType } from "../schema/flag/flag.schema.js";
+import { AddressModel } from "../schema/address/address.schema.js";
+import { ContactModel } from "../schema/contact/contact.schema.js";
+import { FlagModel } from "../schema/flag/flag.schema.js";
 import { OrganisationModel } from "../schema/organisation/organisation.schema.js";
-import GetPersonsSchema from "../schema/person/getPersons.schema.js";
+import GetPersonsSchema, {
+  GetPersonSchema,
+} from "../schema/person/getPersons.schema.js";
 import PersonSchema, { PersonModel } from "../schema/person/person.schema.js";
 
 export const SIGNIN_RESULT_MESSAGE = {
@@ -16,14 +20,12 @@ class PersonService {
     );
 
     for (const person of people) {
-      let maritalStatus = (
-        await FlagModel.find({ _id: person.flgMaritalStatus })
-      )[0].description;
-
-      let gender = (await FlagModel.find({ _id: person.flgGender }))[0]
+      const maritalStatus = (await FlagModel.findById(person.flgMaritalStatus))
         .description;
 
-      let organisation = (
+      const gender = (await FlagModel.findById(person.flgGender)).description;
+
+      const organisation = (
         await OrganisationModel.find({ _id: person.organisationId })
       )[0].name;
 
@@ -38,6 +40,39 @@ class PersonService {
     }
 
     return persons;
+  }
+
+  async getPerson(id: String): Promise<GetPersonSchema> {
+    const person = await PersonModel.findById(id);
+    const gender = (await FlagModel.findById(person.flgGender)).description;
+    const maritalStatus = (await FlagModel.findById(person.flgMaritalStatus))
+      .description;
+    const organisation = (
+      await OrganisationModel.find({ _id: person.organisationId })
+    )[0].name;
+    const contact = await ContactModel.findById(person.contactId);
+    const address = await AddressModel.findById(person.addressId);
+
+    return {
+      _id: person._id,
+      surName: person.surName,
+      givenName: person.givenName,
+      gender,
+      maritalStatus,
+      organisation,
+      organisationId: person.organisationId,
+      contactId: contact._id,
+      email: contact.email,
+      cellNumber1: contact.cellNumber,
+      cellNumber2: contact.cellNumber2,
+      addressId: address._id,
+      line1: address.line1,
+      line2: address.line2,
+      line3: address.line3,
+      line4: address.line4,
+      line5: address.line5,
+      line6: address.line6,
+    };
   }
 }
 
