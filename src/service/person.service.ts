@@ -3,6 +3,7 @@ import { ContactModel } from "../schema/contact/contact.schema.js";
 import { FlagModel } from "../schema/flag/flag.schema.js";
 import { OrganisationModel } from "../schema/organisation/organisation.schema.js";
 import GetPersonsSchema, {
+  EditPersonBasicDetailsSchema,
   GetPersonSchema,
 } from "../schema/person/getPersons.schema.js";
 import PersonSchema, { PersonModel } from "../schema/person/person.schema.js";
@@ -12,6 +13,22 @@ export const SIGNIN_RESULT_MESSAGE = {
 };
 
 class PersonService {
+  async editPersonBasicDetails(
+    input: EditPersonBasicDetailsSchema
+  ): Promise<boolean> {
+    await PersonModel.updateOne(
+      { _id: input._id },
+      {
+        givenName: input.givenName,
+        surname: input.surName,
+        flgGender: input.flgGender,
+        flgMaritalStatus: input.flgMaritalStatus,
+      }
+    );
+
+    return true;
+  }
+
   async getPersons(): Promise<GetPersonsSchema[]> {
     const persons: GetPersonsSchema[] = [];
 
@@ -58,7 +75,9 @@ class PersonService {
       surName: person.surName,
       givenName: person.givenName,
       gender,
+      flgGender: person.flgGender,
       maritalStatus,
+      flgMaritalStatus: person.flgMaritalStatus,
       organisation,
       organisationId: person.organisationId,
       contactId: contact._id,

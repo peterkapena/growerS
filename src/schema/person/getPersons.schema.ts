@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 
 @ObjectType()
 export default class GetPersonsSchema {
@@ -36,7 +36,13 @@ export class GetPersonSchema {
   gender: String;
 
   @Field(() => String)
+  flgGender: String;
+
+  @Field(() => String)
   maritalStatus: String;
+
+  @Field(() => String)
+  flgMaritalStatus: String;
 
   @Field(() => String)
   organisationId: String;
@@ -76,4 +82,21 @@ export class GetPersonSchema {
 
   @Field(() => String)
   line6: String;
+}
+
+@InputType()
+export class EditPersonBasicDetailsSchema {
+  @Field(() => String)
+  _id: String;
+
+  @Field(() => String)
+  surName: String;
+
+  @Field(() => String)
+  givenName: String;
+
+  @Field(() => String)
+  flgGender: String;
+  @Field(() => String)
+  flgMaritalStatus: String;
 }
