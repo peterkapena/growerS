@@ -1,9 +1,13 @@
+Make responsive drawer on grower front end
+Add people and person pages
 Add Statuses feature
+Add a flag screen to add and update them
 Add product setting page where to add product types
 validate that you cannot submit the same product type twice
 add the purchase request feature
 add price, when posted and so on
-Add user to registration process
-User authentication
 Auditing of everything in the application
 Implement the search 
+
+Purchase a domain
+Get a favicon

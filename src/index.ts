@@ -17,7 +17,7 @@ import { unwrapResolverError } from "@apollo/server/errors";
 import RegisterService from "./service/register.service.js";
 
 const main = async () => {
-  await connectToMongoDB().then(addDefaultUser).then(addInitialFlags);
+  await connectToMongoDB().then(addInitialFlags).then(addDefaultUser);
 
   const schema = await buildSchema({
     resolvers,

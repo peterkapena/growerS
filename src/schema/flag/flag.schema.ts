@@ -55,9 +55,12 @@ export enum FlagType {
   ProductType,
 }
 
+export const FlagType_Gender_Male = "Male";
+export const FlagType_Gender_Married = "Married";
+
 export const initialFlags: FlagSchema[] = [
   {
-    description: "Male",
+    description: FlagType_Gender_Male,
     flagTypeId: FlagType.Gender,
   },
   {
@@ -69,7 +72,7 @@ export const initialFlags: FlagSchema[] = [
     flagTypeId: FlagType.Gender,
   },
   {
-    description: "Married",
+    description: FlagType_Gender_Married,
     flagTypeId: FlagType.MaritalStatus,
   },
   {

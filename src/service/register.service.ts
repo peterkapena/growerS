@@ -1,3 +1,8 @@
+import {
+  FlagType,
+  FlagType_Gender_Male,
+  FlagType_Gender_Married,
+} from "../schema/flag/flag.schema.js";
 import { RegisterAddressSchemaInput } from "../schema/register/register.address.schema.js";
 import { RegisterContactSchemaInput } from "../schema/register/register.contact.schema.js";
 import { RegisterOrganisationSchemaInput } from "../schema/register/register.organisation.schema.js";
@@ -6,9 +11,14 @@ import RegisterSchema, {
   RegisterSchemaInput,
 } from "../schema/register/register.schema.js";
 import { CreateUserInput, UserModel } from "../schema/user/user.schema.js";
+import FlagService from "./flag.service.js";
 import UserService from "./user.service.js";
 
 export default class RegisterService {
+  constructor(private flagService?: FlagService) {
+    this.flagService = new FlagService();
+  }
+
   async addDefaultUser() {
     const contact: RegisterContactSchemaInput =
       new RegisterContactSchemaInput();
@@ -30,15 +40,25 @@ export default class RegisterService {
     person.address = address;
     person.surName = "Lumumba";
     person.givenName = "Kapena Peter";
-    person.flgGender = "Males";
+    person.flgGender = (
+      await this.flagService.getFlagByTypeAndDescription({
+        description: FlagType_Gender_Male,
+        type: FlagType.Gender,
+      })
+    )._id;
     person.dob = "19/09/1990";
-    person.flgMaritalStatus = "Single";
+    person.flgMaritalStatus = (
+      await this.flagService.getFlagByTypeAndDescription({
+        description: FlagType_Gender_Married,
+        type: FlagType.MaritalStatus,
+      })
+    )._id;
 
     const organisation: RegisterOrganisationSchemaInput =
       new RegisterOrganisationSchemaInput();
     organisation.contact = contact;
     organisation.address = address;
-    organisation.name = "Grower";
+    organisation.name = "Grower management";
     organisation.organisationType = 1;
 
     const input: RegisterSchemaInput = new RegisterSchemaInput();
