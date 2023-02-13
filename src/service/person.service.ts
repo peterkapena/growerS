@@ -19,10 +19,14 @@ class PersonService {
     input: EditPersonBasicDetailsSchema
   ): Promise<boolean> {
     console.log(input);
+
     const person = await PersonModel.updateOne<PersonSchema>(
-      { id: input._id },
+      { _id: input._id },
       {
-        ...input,
+        surName: input.surName,
+        givenName: input.givenName,
+        flgGender: input.flgGender,
+        flgMaritalStatus: input.flgMaritalStatus,
       }
     );
 
