@@ -100,3 +100,42 @@ export class EditPersonBasicDetailsSchema {
   @Field(() => String)
   flgMaritalStatus: String;
 }
+
+@InputType()
+export class EditContactDetailsSchema {
+  @Field(() => String)
+  _id: String;
+
+  @Field(() => String)
+  email: String;
+
+  @Field(() => String)
+  cellNumber1: String;
+
+  @Field(() => String)
+  cellNumber2: String;
+}
+
+@InputType()
+export class EditAddressDetailsSchema {
+  @Field(() => String)
+  _id: String;
+
+  @Field(() => String)
+  line1: String;
+
+  @Field(() => String)
+  line2: String;
+
+  @Field(() => String)
+  line3: String;
+
+  @Field(() => String)
+  line4: String;
+
+  @Field(() => String)
+  line5: String;
+
+  @Field(() => String)
+  line6: String;
+}

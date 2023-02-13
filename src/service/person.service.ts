@@ -3,6 +3,8 @@ import { ContactModel } from "../schema/contact/contact.schema.js";
 import { FlagModel } from "../schema/flag/flag.schema.js";
 import { OrganisationModel } from "../schema/organisation/organisation.schema.js";
 import GetPersonsSchema, {
+  EditAddressDetailsSchema,
+  EditContactDetailsSchema,
   EditPersonBasicDetailsSchema,
   GetPersonSchema,
 } from "../schema/person/getPersons.schema.js";
@@ -16,13 +18,40 @@ class PersonService {
   async editPersonBasicDetails(
     input: EditPersonBasicDetailsSchema
   ): Promise<boolean> {
-    await PersonModel.updateOne(
+    console.log(input);
+    const person = await PersonModel.updateOne<PersonSchema>(
+      { id: input._id },
+      {
+        ...input,
+      }
+    );
+
+    return person.acknowledged;
+  }
+
+  async editContactDetails(input: EditContactDetailsSchema): Promise<boolean> {
+    await ContactModel.updateOne(
       { _id: input._id },
       {
-        givenName: input.givenName,
-        surname: input.surName,
-        flgGender: input.flgGender,
-        flgMaritalStatus: input.flgMaritalStatus,
+        email: input.email,
+        cellNumber: input.cellNumber1,
+        cellNumber2: input.cellNumber2,
+      }
+    );
+
+    return true;
+  }
+
+  async editAddressDetails(input: EditAddressDetailsSchema): Promise<boolean> {
+    await AddressModel.updateOne(
+      { _id: input._id },
+      {
+        line1: input.line1,
+        line2: input.line2,
+        line3: input.line3,
+        line4: input.line4,
+        line5: input.line5,
+        line6: input.line6,
       }
     );
 

@@ -1,5 +1,7 @@
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import GetPersonsSchema, {
+  EditAddressDetailsSchema,
+  EditContactDetailsSchema,
   EditPersonBasicDetailsSchema,
   GetPersonSchema,
 } from "../schema/person/getPersons.schema.js";
@@ -25,7 +27,21 @@ export default class PersonResolver {
   async editPersonBasicDetails(
     @Arg("input") input: EditPersonBasicDetailsSchema
   ): Promise<boolean> {
-    console.log(input);
     return this.personService.editPersonBasicDetails(input);
+  }
+
+  @Mutation(() => Boolean)
+  async editContactDetails(
+    @Arg("input") input: EditContactDetailsSchema
+  ): Promise<boolean> {
+    console.log(input);
+    return this.personService.editContactDetails(input);
+  }
+
+  @Mutation(() => Boolean)
+  async editAddressDetails(
+    @Arg("input") input: EditAddressDetailsSchema
+  ): Promise<boolean> {
+    return this.personService.editAddressDetails(input);
   }
 }
