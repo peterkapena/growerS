@@ -4,19 +4,13 @@ import {
   Resolver,
   Arg,
   ObjectType,
-  Field,
-} from "type-graphql";
+ } from "type-graphql";
 import RegisterSchema, {
   RegisterSchemaInput,
 } from "../schema/register/register.schema.js";
-import UserSchema from "../schema/user/user.schema.js";
 import RegisterService from "../service/register.service.js";
 
 ObjectType();
-class TestQuery {
-  @Field(() => String)
-  env!: String;
-}
 
 @Resolver()
 export default class RegisterResolver {

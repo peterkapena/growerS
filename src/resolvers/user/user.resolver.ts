@@ -77,10 +77,4 @@ export default class UserResolver {
   ): Promise<Boolean> {
     return this.userService.toggleAdminApproved(approved, id);
   }
-
-  // @Query(() => UserSchema)
-  // async testQuery() {
-  //   // return await UserModel.find().findByUsername("peterkapena").lean();
-  //   return { username: "username", password: "password" };
-  // }
 }

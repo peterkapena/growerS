@@ -8,9 +8,6 @@ import {
 import { Field, ObjectType, InputType } from "type-graphql";
 import bcrypt from "bcrypt";
 import { AsQueryMethod, ReturnModelType } from "@typegoose/typegoose/lib/types";
-import { encodeJwt } from "../../service/jwt.js";
-import PersonSchema, { PersonModel } from "../person/person.schema.js";
-import ContactSchema, { ContactModel } from "../contact/contact.schema.js";
 
 function findByUsername_OrganisationId(
   this: ReturnModelType<typeof UserSchema, UserSchemaQueryHelpers>,
