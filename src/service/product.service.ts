@@ -14,6 +14,21 @@ export const SIGNIN_RESULT_MESSAGE = {
 };
 
 class ProductService {
+  async editProduct(
+    input: AddProductSchemaInput,
+    id: String,
+    user: UserSchema
+  ): Promise<boolean> {
+    await ProductModel.updateOne(
+      { _id: id, organisationId: user.organisationId },
+      {
+        quantity: input.quantity,
+      }
+    );
+
+    return true;
+  }
+
   async getProduct(id: String): Promise<GetProductsSchema> {
     console.log(id);
     return (await this.getProducts()).find(

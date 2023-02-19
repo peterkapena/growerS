@@ -34,4 +34,13 @@ export default class ProductResolver {
   ): Promise<ProductSchema> {
     return this.productService.addProduct(input, user);
   }
+
+  @Mutation(() => Boolean) //
+  async editProduct(
+    @Arg("id") id: String,
+    @Arg("input") input: AddProductSchemaInput,
+    @Ctx() { user }: Context
+  ): Promise<boolean> {
+    return this.productService.editProduct(input, id, user);
+  }
 }
