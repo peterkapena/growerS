@@ -1,6 +1,6 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { AddProductSchemaInput } from "../schema/product/addProduct.schema.js";
-import { GetProductsSchema } from "../schema/product/getProductNames.schema.js";
+import { GetProductsSchema } from "../schema/product/getProducts.schema.js";
 import ProductSchema from "../schema/product/product.schema.js";
 import ProductService from "../service/product.service.js";
 import Context from "../types.js";
@@ -14,6 +14,17 @@ export default class ProductResolver {
   @Query(() => [GetProductsSchema])
   async getProducts(): Promise<GetProductsSchema[]> {
     return this.productService.getProducts();
+  }
+  @Query(() => GetProductsSchema)
+  async getProduct(@Arg("input") input: String): Promise<GetProductsSchema> {
+    return this.productService.getProduct(input);
+  }
+
+  @Query(() => [GetProductsSchema])
+  async getProductsByOrganisation(
+    @Arg("input") input: String
+  ): Promise<GetProductsSchema[]> {
+    return this.productService.getProductsByOrganisation(input);
   }
 
   @Mutation(() => ProductSchema) //

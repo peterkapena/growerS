@@ -1,7 +1,7 @@
 import ProductSchema, {
   ProductModel,
 } from "../schema/product/product.schema.js";
-import { GetProductsSchema } from "../schema/product/getProductNames.schema.js";
+import { GetProductsSchema } from "../schema/product/getProducts.schema.js";
 import { AddProductSchemaInput } from "../schema/product/addProduct.schema.js";
 import { UserSchema } from "../schema/index.js";
 import OrganisationSchema, {
@@ -14,6 +14,19 @@ export const SIGNIN_RESULT_MESSAGE = {
 };
 
 class ProductService {
+  async getProduct(id: String): Promise<GetProductsSchema> {
+    console.log(id);
+    return (await this.getProducts()).find(
+      (p) => p._id.toString() === id.toString()
+    );
+  }
+
+  async getProductsByOrganisation(input: String): Promise<GetProductsSchema[]> {
+    return (await this.getProducts()).filter(
+      (p) => p.organisationId.toString() === input.toString()
+    );
+  }
+
   async getProducts(): Promise<GetProductsSchema[]> {
     const products: GetProductsSchema[] = [];
 
@@ -31,9 +44,11 @@ class ProductService {
 
       products.push({
         _id: product._id,
-        organisation: organisation?.name || "",
+        organisationId: organisation?._id,
+        organisationName: organisation?.name || "",
         quantity: product.quantity,
-        type: flgProductType.description,
+        type: flgProductType._id,
+        name: flgProductType.description,
       });
     }
 

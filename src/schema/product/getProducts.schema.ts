@@ -8,9 +8,15 @@ export class GetProductsSchema {
   @Field(() => String)
   type: String;
 
+  @Field(() => String)
+  name: String;
+
   @Field(() => Number)
   quantity: Number;
 
   @Field(() => String)
-  organisation: String;
+  organisationName: String;
+
+  @Field(() => String)
+  organisationId: String;
 }
