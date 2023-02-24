@@ -14,6 +14,9 @@ export class GetProductsSchema {
   @Field(() => Number)
   quantity: Number;
 
+  @Field(() => Number)
+  unitPrice: Number;
+
   @Field(() => String)
   organisationName: String;
 

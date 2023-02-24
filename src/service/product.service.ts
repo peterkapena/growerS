@@ -22,6 +22,7 @@ class ProductService {
     await ProductModel.updateOne(
       { _id: id, organisationId: user.organisationId },
       {
+        unitPrice: input.unitPrice,
         quantity: input.quantity,
       }
     );
@@ -64,6 +65,7 @@ class ProductService {
         quantity: product.quantity,
         type: flgProductType._id,
         name: flgProductType.description,
+        unitPrice: product.unitPrice,
       });
     }
 
