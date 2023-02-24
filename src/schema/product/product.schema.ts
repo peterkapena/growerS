@@ -30,6 +30,11 @@ export default class ProductSchema {
   @prop({ required: true })
   @Field(() => String)
   organisationId: String;
+
+
+  @prop({ required: true })
+  @Field(() => Number)
+  unitPrice: Number;
 }
 
 export const ProductModel = getModelForClass<
