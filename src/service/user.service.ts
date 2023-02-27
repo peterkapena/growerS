@@ -44,11 +44,15 @@ class UserService {
 
   async signin(input: SigninInput): Promise<SigninOutput> {
     let message = "";
-    const user = await UserModel.find().findByUsername(input.username).lean();
+    const user = await UserModel.find()
+      .findByUsername(input.username.trim())
+      .lean();
 
     if (!user) message = SIGNIN_RESULT_MESSAGE.INVALID_USERNAME_PASSOWRD;
     else if (!this.adminApproved(user))
       message = SIGNIN_RESULT_MESSAGE.NOT_APPROVED_BY_ADMIN;
+
+    if (message.length > 0) return { message };
 
     //validate password
     const passwordIsValid = await bcrypt.compare(
