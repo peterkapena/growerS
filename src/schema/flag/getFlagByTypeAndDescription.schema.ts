@@ -1,4 +1,4 @@
-import { Field, InputType } from "type-graphql";
+import { Field, InputType, ObjectType } from "type-graphql";
 
 @InputType()
 export default class GetFlagByTypeAndDescription {
@@ -7,4 +7,13 @@ export default class GetFlagByTypeAndDescription {
 
   @Field(() => Number)
   type: Number;
+}
+
+@ObjectType()
+export class GetFlagType {
+  @Field(() => String)
+  id: String;
+
+  @Field(() => String)
+  typeName: String;
 }
