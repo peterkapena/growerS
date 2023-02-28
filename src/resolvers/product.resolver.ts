@@ -27,7 +27,7 @@ export default class ProductResolver {
     return this.productService.getProductsByOrganisation(input);
   }
 
-  @Mutation(() => ProductSchema) //
+  @Mutation(() => ProductSchema)
   async addProduct(
     @Arg("input") input: AddProductSchemaInput,
     @Ctx() { user }: Context
@@ -35,12 +35,21 @@ export default class ProductResolver {
     return this.productService.addProduct(input, user);
   }
 
-  @Mutation(() => Boolean) //
+  @Mutation(() => Boolean)
   async editProduct(
     @Arg("id") id: String,
     @Arg("input") input: AddProductSchemaInput,
     @Ctx() { user }: Context
   ): Promise<boolean> {
     return this.productService.editProduct(input, id, user);
+  }
+
+  @Mutation(() => Boolean)
+  async toggleArchived(
+    @Arg("id") id: String,
+    @Arg("archived") archived: Boolean,
+    @Ctx() { user }: Context
+  ): Promise<boolean> {
+    return this.productService.toggleArchived(id, user, archived);
   }
 }

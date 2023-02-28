@@ -14,6 +14,20 @@ export const SIGNIN_RESULT_MESSAGE = {
 };
 
 class ProductService {
+  async toggleArchived(
+    id: String,
+    user: UserSchema,
+    archived: Boolean
+  ): Promise<boolean> {
+    await ProductModel.updateOne(
+      { _id: id, organisationId: user.organisationId },
+      {
+        archived: archived,
+      }
+    );
+
+    return true;
+  }
   async editProduct(
     input: AddProductSchemaInput,
     id: String,
@@ -46,7 +60,7 @@ class ProductService {
   async getProducts(): Promise<GetProductsSchema[]> {
     const products: GetProductsSchema[] = [];
 
-    for (const product of await ProductModel.find()) {
+    for (const product of await ProductModel.find({ archived: false })) {
       //Verify for the admin submitted products
       let organisation: OrganisationSchema;
       if (product.organisationId.length > 10)
@@ -78,6 +92,7 @@ class ProductService {
   ): Promise<ProductSchema> {
     const product: ProductSchema = {
       ...input,
+      archived: false,
       organisationId: user.organisationId,
     };
 

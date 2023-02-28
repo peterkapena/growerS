@@ -31,10 +31,13 @@ export default class ProductSchema {
   @Field(() => String)
   organisationId: String;
 
-
   @prop({ required: true })
   @Field(() => Number)
   unitPrice: Number;
+
+  @prop({ default: false, required: false })
+  @Field(() => Boolean, { nullable: true })
+  archived: Boolean;
 }
 
 export const ProductModel = getModelForClass<
@@ -43,4 +46,3 @@ export const ProductModel = getModelForClass<
 >(ProductSchema, {
   options: { customName: "Product" },
 });
-
