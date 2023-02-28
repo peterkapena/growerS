@@ -77,19 +77,12 @@ class FlagService {
   async getFlagByTypeAndDescription(
     input: GetFlagByTypeAndDescription
   ): Promise<FlagSchema> {
-    const flags = (
-      await FlagModel.find({
-        flagTypeId: input.type,
-        description: input.description,
-        archived: false,
-      })
-    ).map<FlagSchema>((flag) => ({
-      description: flag.description,
-      flagTypeId: flag.flagTypeId,
-      _id: flag._id,
-    }));
+    const flag = await FlagModel.find().findByDescriptionAndType(
+      input.type,
+      input.description
+    );
 
-    return flags[0];
+    return flag;
   }
 }
 

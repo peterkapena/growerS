@@ -1,13 +1,13 @@
 import { Query, Resolver, Arg, Mutation } from "type-graphql";
-import FlagSchema from "../../schema/flag/flag.schema.js";
+import FlagSchema from "../schema/flag/flag.schema.js";
 import {
   AddOrUpdateFlag,
   GetFlagSchema,
-} from "../../schema/flag/getFlag.schema.js";
+} from "../schema/flag/getFlag.schema.js";
 import GetFlagByTypeAndDescription, {
   GetFlagType,
-} from "../../schema/flag/getFlagByTypeAndDescription.schema.js";
-import FlagService from "../../service/flag.service.js";
+} from "../schema/flag/getFlagByTypeAndDescription.schema.js";
+import FlagService from "../service/flag.service.js";
 
 @Resolver()
 export default class FlagResolver {

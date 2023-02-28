@@ -1,13 +1,13 @@
 import { Mutation, Query, Resolver, Arg } from "type-graphql";
-import ContactSchema from "../../schema/contact/contact.schema.js";
-import { UserSchema } from "../../schema/index.js";
-import PersonSchema from "../../schema/person/person.schema.js";
-import AdminGetUsersSchema from "../../schema/user/adminGetUsers.schema.js";
-import { SigninInput, SigninOutput } from "../../schema/user/signin.schema.js";
-import { CreateUserInput, UserModel } from "../../schema/user/user.schema.js";
-import { VerifyTokenSchema } from "../../schema/user/verifyToken.schema.js";
-import { decodeJwt } from "../../service/jwt.js";
-import UserService from "../../service/user.service.js";
+import ContactSchema from "../schema/contact/contact.schema.js";
+import { UserSchema } from "../schema/index.js";
+import PersonSchema from "../schema/person/person.schema.js";
+import AdminGetUsersSchema from "../schema/user/adminGetUsers.schema.js";
+import { SigninInput, SigninOutput } from "../schema/user/signin.schema.js";
+import { CreateUserInput, UserModel } from "../schema/user/user.schema.js";
+import { VerifyTokenSchema } from "../schema/user/verifyToken.schema.js";
+import { decodeJwt } from "../service/jwt.js";
+import UserService from "../service/user.service.js";
 
 @Resolver()
 export default class UserResolver {

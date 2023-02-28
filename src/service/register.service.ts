@@ -40,12 +40,8 @@ export default class RegisterService {
     person.address = address;
     person.surName = "Lumumba";
     person.givenName = "Kapena Peter";
-    person.flgGender = (
-      await this.flagService.getFlagByTypeAndDescription({
-        description: FlagType_Gender_Male,
-        type: FlagType.Gender,
-      })
-    )._id;
+    const genders = await this.flagService.getFlagsByType(FlagType.Gender);
+    person.flgGender = genders[0]._id;
     person.dob = "19/09/1990";
     person.flgMaritalStatus = (
       await this.flagService.getFlagByTypeAndDescription({

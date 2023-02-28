@@ -53,12 +53,13 @@ export enum FlagType {
   Gender = 1,
   MaritalStatus,
   ProductType,
+  OrderStatus,
 }
 
 export const FlagType_Gender_Male = "Male";
 export const FlagType_Gender_Married = "Married";
 
-export const initialFlags: FlagSchema[] = [
+const genders = [
   {
     description: FlagType_Gender_Male,
     flagTypeId: FlagType.Gender,
@@ -71,6 +72,9 @@ export const initialFlags: FlagSchema[] = [
     description: "Other",
     flagTypeId: FlagType.Gender,
   },
+];
+
+const maritalStatus = [
   {
     description: FlagType_Gender_Married,
     flagTypeId: FlagType.MaritalStatus,
@@ -79,6 +83,8 @@ export const initialFlags: FlagSchema[] = [
     description: "Single",
     flagTypeId: FlagType.MaritalStatus,
   },
+];
+const productType = [
   {
     description: "Maize",
     flagTypeId: FlagType.ProductType,
@@ -87,4 +93,28 @@ export const initialFlags: FlagSchema[] = [
     description: "Beans",
     flagTypeId: FlagType.ProductType,
   },
+];
+
+export const FlagType_OrderStatus_Submitted = "Submitted";
+export const FlagType_OrderStatus_Completed = "Completed";
+export const FlagType_OrderStatus_Cancelled = "Cancelled";
+const orderStatus = [
+  {
+    description: FlagType_OrderStatus_Submitted,
+    flagTypeId: FlagType.OrderStatus,
+  },
+  {
+    description: FlagType_OrderStatus_Completed,
+    flagTypeId: FlagType.OrderStatus,
+  },
+  {
+    description: FlagType_OrderStatus_Cancelled,
+    flagTypeId: FlagType.OrderStatus,
+  },
+];
+export const initialFlags: FlagSchema[] = [
+  ...genders,
+  ...maritalStatus,
+  ...productType,
+  ...orderStatus,
 ];
