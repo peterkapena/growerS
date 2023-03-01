@@ -20,7 +20,7 @@ class ProductService {
     archived: Boolean
   ): Promise<boolean> {
     await ProductModel.updateOne(
-      { _id: id, organisationId: user.organisationId },
+      { _id: id },
       {
         archived: archived,
       }

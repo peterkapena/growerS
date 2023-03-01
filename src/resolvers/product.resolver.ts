@@ -45,7 +45,7 @@ export default class ProductResolver {
   }
 
   @Mutation(() => Boolean)
-  async toggleArchived(
+  async toggleProductArchived(
     @Arg("id") id: String,
     @Arg("archived") archived: Boolean,
     @Ctx() { user }: Context
