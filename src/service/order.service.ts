@@ -34,7 +34,6 @@ class OrderService {
         userId: user._id,
         flgStatusId: flgStatusId,
       };
-      console.log(order);
 
       order = await OrderModel.create(order);
     }
