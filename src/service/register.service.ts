@@ -1,6 +1,5 @@
 import {
   FlagType,
-  FlagType_Gender_Male,
   FlagType_Gender_Married,
 } from "../schema/flag/flag.schema.js";
 import { RegisterAddressSchemaInput } from "../schema/register/register.address.schema.js";

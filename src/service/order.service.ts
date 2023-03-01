@@ -16,11 +16,7 @@ import ProductSchema, {
 import { UserModel } from "../schema/user/user.schema.js";
 
 class OrderService {
-  async toggleArchived(
-    id: String,
-    user: UserSchema,
-    archived: Boolean
-  ): Promise<boolean> {
+  async toggleArchived(id: String, archived: Boolean): Promise<boolean> {
     await OrderModel.updateOne(
       { _id: id },
       {

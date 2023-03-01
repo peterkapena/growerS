@@ -16,7 +16,6 @@ export const SIGNIN_RESULT_MESSAGE = {
 class ProductService {
   async toggleArchived(
     id: String,
-    user: UserSchema,
     archived: Boolean
   ): Promise<boolean> {
     await ProductModel.updateOne(

@@ -47,9 +47,8 @@ export default class ProductResolver {
   @Mutation(() => Boolean)
   async toggleProductArchived(
     @Arg("id") id: String,
-    @Arg("archived") archived: Boolean,
-    @Ctx() { user }: Context
+    @Arg("archived") archived: Boolean
   ): Promise<boolean> {
-    return this.productService.toggleArchived(id, user, archived);
+    return this.productService.toggleArchived(id, archived);
   }
 }

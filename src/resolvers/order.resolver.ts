@@ -28,9 +28,8 @@ export default class OrderResolver {
   @Mutation(() => Boolean)
   async toggleOrderArchived(
     @Arg("id") id: String,
-    @Arg("archived") archived: Boolean,
-    @Ctx() { user }: Context
+    @Arg("archived") archived: Boolean
   ): Promise<boolean> {
-    return this.orderService.toggleArchived(id, user, archived);
+    return this.orderService.toggleArchived(id, archived);
   }
 }

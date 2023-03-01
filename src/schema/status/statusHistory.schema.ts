@@ -1,5 +1,4 @@
-import { getModelForClass, prop, queryMethod } from "@typegoose/typegoose";
-import { AsQueryMethod, ReturnModelType } from "@typegoose/typegoose/lib/types";
+import { getModelForClass } from "@typegoose/typegoose";
 import { Field, ObjectType } from "type-graphql";
 import CommonSchema from "../common.schema";
 
