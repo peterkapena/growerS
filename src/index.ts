@@ -13,32 +13,32 @@ import UserSchema from "./schema/user/user.schema.js";
 import { authChecker } from "./authchecker.js";
 import { unwrapResolverError } from "@apollo/server/errors";
 
+const schema = await buildSchema({
+  resolvers,
+  validate: false,
+  authChecker,
+});
+
+const server = new ApolloServer({
+  schema,
+  formatError: (formattedError, error) => {
+    // unwrapResolverError removes the outer GraphQLError wrapping from
+    // errors thrown in resolvers, enabling us to check the instance of
+    // the original error
+    console.log(error);
+    if (unwrapResolverError(error)) {
+      return { message: "Internal server error" };
+    }
+    return formattedError;
+  },
+  plugins: [
+    process.env.NODE_ENV === "production" && !process.env.IS_TEST
+      ? ApolloServerPluginLandingPageDisabled()
+      : ApolloServerPluginLandingPageLocalDefault(),
+  ],
+});
+
 const main = async () => {
-  const schema = await buildSchema({
-    resolvers,
-    validate: false,
-    authChecker,
-  });
-
-  const server = new ApolloServer({
-    schema,
-    formatError: (formattedError, error) => {
-      // unwrapResolverError removes the outer GraphQLError wrapping from
-      // errors thrown in resolvers, enabling us to check the instance of
-      // the original error
-      console.log(error);
-      if (unwrapResolverError(error)) {
-        return { message: "Internal server error" };
-      }
-      return formattedError;
-    },
-    plugins: [
-      process.env.NODE_ENV === "production" && !process.env.IS_TEST
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageLocalDefault(),
-    ],
-  });
-
   const port = +process.env.APP_PORT;
 
   const { url } = await startStandaloneServer(server, {
@@ -60,3 +60,5 @@ const main = async () => {
 };
 
 main().catch((err) => console.log(err));
+
+export { server };
